@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:oblix_wallet/generate_mnemonic_screen.dart';
 import 'package:oblix_wallet/wallet_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -16,13 +17,19 @@ class WelcomeScreen extends StatelessWidget {
           children: [
             ElevatedButton(
               onPressed: () async {
-                final mnemonic = walletProvider.generateMnemonic();
-                final privateKey = await walletProvider.getPrivateKey(mnemonic);
-                final publicKey = await walletProvider.getPublicKey(privateKey);
-
-                print('Mnemonic: $mnemonic');
-                print('Private Key: $privateKey');
-                print('Public Key: $publicKey');
+                // final mnemonic = walletProvider.generateMnemonic();
+                // final privateKey = await walletProvider.getPrivateKey(mnemonic);
+                // final publicKey = await walletProvider.getPublicKey(privateKey);
+                //
+                // print('Mnemonic: $mnemonic');
+                // print('Private Key: $privateKey');
+                // print('Public Key: $publicKey');
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => GenerateMnemonicScreen(),
+                  ),
+                );
               },
               child: Text('Create Wallet'),
             ),
