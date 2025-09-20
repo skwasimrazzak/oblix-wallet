@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:oblix_wallet/wallet_provider.dart';
+import 'package:oblix_wallet/welcome_screen.dart';
 import 'package:provider/provider.dart';
 
 void main() {
@@ -17,35 +18,9 @@ class OblixWallet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final walletProvider = Provider.of<WalletProvider>(context);
     return MaterialApp(
       title: 'Oblix Wallet',
-      home: Scaffold(
-        appBar: AppBar(title: Text('Oblix Wallet'), centerTitle: true),
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              ElevatedButton(
-                onPressed: () async {
-                  final mnemonic = walletProvider.generateMnemonic();
-                  final privateKey = await walletProvider.getPrivateKey(
-                    mnemonic,
-                  );
-                  final publicKey = await walletProvider.getPublicKey(
-                    privateKey,
-                  );
-
-                  print('Mnemonic: $mnemonic');
-                  print('Private Key: $privateKey');
-                  print('Public Key: $publicKey');
-                },
-                child: Text('Generate Wallet'),
-              ),
-            ],
-          ),
-        ),
-      ),
+      home: WelcomeScreen(),
       debugShowCheckedModeBanner: false,
     );
   }
