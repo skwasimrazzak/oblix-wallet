@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:oblix_wallet/verify_mnemonic_screen.dart';
 import 'package:oblix_wallet/wallet_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -16,6 +17,11 @@ class GenerateMnemonicScreen extends StatelessWidget {
       ScaffoldMessenger.of(
         context,
       ).showSnackBar(SnackBar(content: Text('Mnemonic Copied to Clipboard')));
+
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => VerifyMnemonicScreen()),
+      );
     }
 
     return Scaffold(
