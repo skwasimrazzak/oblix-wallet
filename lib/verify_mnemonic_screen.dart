@@ -15,22 +15,21 @@ class _VerifyMnemonicScreenState extends State<VerifyMnemonicScreen> {
   bool isVerified = false;
   String verificationText = '';
   void verifyMnemonics() {
-    print('lets see');
     final walletProvider = Provider.of<WalletProvider>(context, listen: false);
-    print('1.${verificationText}');
-    print('2. ${widget.mnemonic.trim()}');
+
     if (verificationText.trim() == widget.mnemonic.trim()) {
-      print('good going');
       walletProvider.getPrivateKey(widget.mnemonic).then((privateKey) {
         setState(() {
           isVerified = true;
         });
       });
-      if (isVerified == true) {
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text('Verification Complete')));
-      }
+    } else {
+      isVerified = false;
+    }
+    if (isVerified == true) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Verification Complete')));
     }
   }
 
@@ -62,7 +61,6 @@ class _VerifyMnemonicScreenState extends State<VerifyMnemonicScreen> {
             SizedBox(height: 100.0),
             ElevatedButton(
               onPressed: () {
-                print(verificationText);
                 verifyMnemonics();
               },
               style: ElevatedButton.styleFrom(
@@ -73,8 +71,16 @@ class _VerifyMnemonicScreenState extends State<VerifyMnemonicScreen> {
             SizedBox(height: 10.0),
             ElevatedButton(
               onPressed: () {
-                isVerified ? navigateToWallet() : print('nope');
+                isVerified
+                    ? navigateToWallet()
+                    : ScaffoldMessenger.of(
+                        context,
+                      ).showSnackBar(SnackBar(content: Text('Not Verified')));
               },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.white,
+                foregroundColor: Colors.black,
+              ),
               child: Text('Next'),
             ),
           ],
