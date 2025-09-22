@@ -14,6 +14,7 @@ abstract class WalletAddressService {
 }
 
 class WalletProvider extends ChangeNotifier implements WalletAddressService {
+  @override
   String? privateKey;
 
   Future<void> loadPrivateKey() async {
