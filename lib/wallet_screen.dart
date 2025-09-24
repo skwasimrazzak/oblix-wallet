@@ -7,7 +7,15 @@ class WalletScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text('Wallet')),
-      body: Column(),
+      body: Column(
+        children: [
+          Container(),
+          Row(),
+          Column(),
+          SizedBox(),
+          Expanded(child: DefaultTabController(length: 3, child: Column())),
+        ],
+      ),
     );
   }
 }
