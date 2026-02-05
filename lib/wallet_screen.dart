@@ -1,18 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:oblix_wallet/create_or_import_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class WalletScreen extends StatelessWidget {
+class WalletScreen extends StatefulWidget {
   const WalletScreen({super.key});
 
+  @override
+  State<WalletScreen> createState() => _WalletScreenState();
+}
+
+class _WalletScreenState extends State<WalletScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text('Wallet')),
       body: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Container(
             height: MediaQuery.of(context).size.height * 0.4,
             padding: EdgeInsets.all(16.0),
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
                   'Wallet Address',
@@ -41,6 +50,7 @@ class WalletScreen extends StatelessWidget {
             ),
           ),
           Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               Column(
                 children: [
@@ -86,9 +96,58 @@ class WalletScreen extends StatelessWidget {
                   Expanded(
                     child: TabBarView(
                       children: [
-                        Column(children: [Card(), Text('')]),
+                        Column(
+                          children: [
+                            //Assets Tab
+                            Card(
+                              margin: EdgeInsets.all(16.0),
+                              child: Padding(
+                                padding: const EdgeInsets.all(16.0),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      'Sepolia ETH',
+                                      style: TextStyle(
+                                        fontSize: 24.0,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    Text(
+                                      'balance', //replace with variable
+                                      style: TextStyle(
+                                        fontSize: 24.0,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        //NFTs Tab
                         SingleChildScrollView(),
-                        Center(),
+                        //Options Tab
+                        Center(
+                          child: ListTile(
+                            leading: Icon(Icons.logout),
+                            title: Text('logout'),
+                            onTap: () async {
+                              SharedPreferences prefs =
+                                  await SharedPreferences.getInstance();
+                              await prefs.remove('privateKey');
+                              Navigator.pushAndRemoveUntil(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => CreateOrImportScreen(),
+                                ),
+                                (route) => false,
+                              );
+                            },
+                          ),
+                        ),
                       ],
                     ),
                   ),
