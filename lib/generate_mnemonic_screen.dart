@@ -9,7 +9,8 @@ class GenerateMnemonicScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final walletProvider = Provider.of<WalletProvider>(context);
+    // final walletProvider = Provider.of<WalletProvider>(context);
+    final walletProvider = context.watch<WalletProvider>();
     final mnemonic = walletProvider.generateMnemonic();
     final mnemonicWord = mnemonic.split(' ');
     void copyToClipboard() {

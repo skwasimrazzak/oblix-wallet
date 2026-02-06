@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:oblix_wallet/generate_mnemonic_screen.dart';
+import 'package:oblix_wallet/import_wallet_screen.dart';
 
 class CreateOrImportScreen extends StatelessWidget {
   const CreateOrImportScreen({super.key});
@@ -26,7 +27,10 @@ class CreateOrImportScreen extends StatelessWidget {
             SizedBox(height: 16.0),
             ElevatedButton(
               onPressed: () async {
-                //Action
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => ImportWalletScreen()),
+                );
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.lightBlueAccent,
