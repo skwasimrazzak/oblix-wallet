@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:oblix_wallet/create_or_import_screen.dart';
+import 'package:oblix_wallet/wallet_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:web3dart/credentials.dart';
 
 class WalletScreen extends StatefulWidget {
   const WalletScreen({super.key});
@@ -10,6 +12,30 @@ class WalletScreen extends StatefulWidget {
 }
 
 class _WalletScreenState extends State<WalletScreen> {
+  String walletAddress = '';
+  String balance = '';
+  String pvKey = '';
+
+  @override
+  void initState() {
+    super.initState();
+    loadWalletData();
+  }
+
+  Future<void> loadWalletData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? privateKey = prefs.getString('privateKey');
+    if (privateKey != null) {
+      final walletProvider = WalletProvider();
+      await walletProvider.loadPrivateKey();
+      EthereumAddress address = await walletProvider.getPublicKey(privateKey);
+      setState(() {
+        walletAddress = address.hex;
+        pvKey = privateKey;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,7 +56,7 @@ class _WalletScreenState extends State<WalletScreen> {
                 ),
                 SizedBox(height: 16.0),
                 Text(
-                  'walletAddress', //variable
+                  walletAddress, //variable
                   style: TextStyle(fontSize: 20.0),
                   textAlign: TextAlign.center,
                 ),

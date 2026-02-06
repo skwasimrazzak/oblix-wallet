@@ -8,8 +8,17 @@ class NFTListPage extends StatefulWidget {
 }
 
 class _NFTListPageState extends State<NFTListPage> {
+  List<dynamic> _nftList = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _loadNFTList();
+  }
+
+  Future<void> _loadNFTList() async {}
   @override
   Widget build(BuildContext context) {
-    return Scaffold();
+    return Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: []);
   }
 }

@@ -15,8 +15,8 @@ class _VerifyMnemonicScreenState extends State<VerifyMnemonicScreen> {
   bool isVerified = false;
   String verificationText = '';
   void verifyMnemonics() {
-    final walletProvider = Provider.of<WalletProvider>(context, listen: false);
-
+    // final walletProvider = Provider.of<WalletProvider>(context, listen: false);
+    final walletProvider = context.read<WalletProvider>();
     if (verificationText.trim() == widget.mnemonic.trim()) {
       walletProvider.getPrivateKey(widget.mnemonic).then((privateKey) {
         setState(() {
