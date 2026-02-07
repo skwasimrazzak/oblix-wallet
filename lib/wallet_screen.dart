@@ -1,8 +1,12 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:oblix_wallet/create_or_import_screen.dart';
+import 'package:oblix_wallet/wallet_balance.dart';
 import 'package:oblix_wallet/wallet_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:web3dart/credentials.dart';
+import 'package:web3dart/web3dart.dart';
 
 class WalletScreen extends StatefulWidget {
   const WalletScreen({super.key});
@@ -32,6 +36,21 @@ class _WalletScreenState extends State<WalletScreen> {
       setState(() {
         walletAddress = address.hex;
         pvKey = privateKey;
+      });
+      String response = await getBalance(address.hex, 'sepolia');
+      dynamic data = json.decode(response);
+      String newBalance = data['balance'] ?? '0';
+
+      EtherAmount latestBalance = EtherAmount.fromBigInt(
+        EtherUnit.wei,
+        BigInt.parse(newBalance),
+      );
+      String latestBalanceEther = latestBalance
+          .getValueInUnit(EtherUnit.ether)
+          .toString();
+
+      setState(() {
+        balance = latestBalanceEther;
       });
     }
   }
@@ -68,7 +87,7 @@ class _WalletScreenState extends State<WalletScreen> {
                 ),
                 SizedBox(height: 16.0),
                 Text(
-                  'balance', //variable
+                  balance, //variable
                   style: TextStyle(fontSize: 20.0),
                   textAlign: TextAlign.center,
                 ),
@@ -141,7 +160,7 @@ class _WalletScreenState extends State<WalletScreen> {
                                       ),
                                     ),
                                     Text(
-                                      'balance', //replace with variable
+                                      balance, //replace with variable
                                       style: TextStyle(
                                         fontSize: 24.0,
                                         fontWeight: FontWeight.bold,
